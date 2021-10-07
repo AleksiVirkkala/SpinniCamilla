@@ -24,7 +24,7 @@ def handleMessage(msg):
     camera.close()
     # Seding picture
     bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
-    bot.sendMessage(id, "MOROOO")
+    bot.sendMessage(id, "JEEEE")
   elif (command == '/video'):
     print("Taking video...");
     camera = PiCamera()
