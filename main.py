@@ -36,6 +36,9 @@ def handleMessage(msg):
     # Send video
     bot.sendVideo(id, open(path + '/spinni_video.h264', 'rb'))
     bot.sendMessage(id, 'YOOOO')
+  elif (command == '/update'):
+    os.system('sh ./update.sh')
+
   else:
     bot.sendMessage(id, "Laita /photo perkele")
   
