@@ -5,7 +5,7 @@ import os
 from picamera import PiCamera
 
 path=os.getenv("HOME")
-BOT_ID=open('SECRET.txt', 'r').readline()
+BOT_ID=open('SECRET.txt', 'r').readline().rstrip('\n')
 
 # Handling message from Telegram
 def handleMessage(msg):
