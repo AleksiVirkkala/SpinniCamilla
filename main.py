@@ -31,7 +31,7 @@ def handleMessage(msg):
     camera.resolution = (640, 480)
     camera.rotation = -90
     camera.start_recording(path + '/spinni_video.h264')
-    camera.wait_recording(6)
+    camera.wait_recording(60)
     camera.stop_recording()
     camera.close()
     # Send video
