@@ -18,7 +18,7 @@ def handleMessage(msg):
     camera = PiCamera();
     camera.start_preview()
     camera.rotation = -90
-    camera.capture(path + '/pic.jpg',resize=(600,480))
+    camera.capture(path + '/pic.jpg')
     time.sleep(2)
     camera.stop_preview()
     camera.close()
