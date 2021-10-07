@@ -29,6 +29,7 @@ def handleMessage(msg):
     print("Taking video...");
     camera = PiCamera()
     camera.resolution = (640, 480)
+    camera.rotation = -90
     camera.start_recording(path + '/spinni_video.h264')
     camera.wait_recording(6)
     camera.stop_recording()
