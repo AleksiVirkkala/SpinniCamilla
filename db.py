@@ -10,5 +10,5 @@ def getDbContent():
 def addToDb(chatID):
   conn = sqlite3.connect('/home/pi/camillatesti/camilla')
   cur = conn.cursor()
-  chatID = str(chatID)
+  print(chatID)
   return cur.execute("INSERT INTO camilladb VALUES ('" + chatID + "');")
