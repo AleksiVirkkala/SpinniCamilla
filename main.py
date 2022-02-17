@@ -8,6 +8,7 @@ from picamera import PiCamera
 
 path=os.getenv("HOME")
 BOT_ID=open('SECRET.txt', 'r').readline().rstrip('\n')
+LOGIN_PASSWORD=open('LOGIN_PASSWORD.txt', 'r').readline().rstrip('\n')
 
 # Handling message from Telegram
 def handleMessage(msg):
@@ -49,7 +50,7 @@ def handleMessage(msg):
       bot.sendMessage(id, 'Enter password after "/login"')
       return
     
-    if (command.split()[1] != 'Salasana'):
+    if (command.split()[1] != LOGIN_PASSWORD):
       bot.sendMessage(id, 'Invalid password')
       return
 
