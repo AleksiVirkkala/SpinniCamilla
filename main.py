@@ -15,7 +15,28 @@ def handleMessage(msg):
   id = msg['chat']['id'];
   command = msg['text'];
   print ('Command ' + command + ' from chat id' + str(id));
-  if (command == '/photo'):
+
+  if (command.split()[0] == '/login'):
+    if (len(command.split()) != 2):
+      bot.sendMessage(id, 'Enter password after "/login"')
+      return
+    
+    if (command.split()[1] != LOGIN_PASSWORD):
+      bot.sendMessage(id, 'Invalid password')
+      return
+
+    if (db.checkIfIDExists(id)):
+      bot.sendMessage(id, 'Already logged in')
+      return
+
+    bot.sendMessage(id, 'Logging in...')
+    bot.sendMessage(id, db.addToDb(id))
+
+  if (db.checkIfIDExists(id)):
+    # Block user from all commands except /login if not logged int
+    bot.sendMessage(id, "Login with /login")
+    
+  elif (command == '/photo'):
     print ("Taking picture…");
     # Initialize the camera
     camera = PiCamera();
@@ -45,22 +66,6 @@ def handleMessage(msg):
   elif (command == '/db'):
     bot.sendMessage(id, 'Reading database...')
     bot.sendMessage(id, db.getDbContent())
-  elif (command.split()[0] == '/login'):
-    if (len(command.split()) != 2):
-      bot.sendMessage(id, 'Enter password after "/login"')
-      return
-    
-    if (command.split()[1] != LOGIN_PASSWORD):
-      bot.sendMessage(id, 'Invalid password')
-      return
-
-    if (db.checkIfIDExists(id)):
-      bot.sendMessage(id, 'Already logged in')
-      return
-
-    bot.sendMessage(id, 'Logging in...')
-    bot.sendMessage(id, db.addToDb(id))
-
   else:
     bot.sendMessage(id, "Laita /photo perkele")
 
