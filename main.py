@@ -50,18 +50,18 @@ def handleMessage(msg):
     # Seding picture
     bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
     bot.sendMessage(id, "WOOO :OO")
-  elif (command == '/video'):
-    print("Taking video...");
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-    camera.rotation = -90
-    camera.start_recording(path + '/spinni_video.h264')
-    camera.wait_recording(60)
-    camera.stop_recording()
-    camera.close()
-    # Send video
-    bot.sendVideo(id, open(path + '/spinni_video.h264', 'rb'))
-    bot.sendMessage(id, 'YOOOO')
+  # elif (command == '/video'):
+  #  print("Taking video...");
+  #  camera = PiCamera()
+  #  camera.resolution = (640, 480)
+  #  camera.rotation = -90
+  #  camera.start_recording(path + '/spinni_video.h264')
+  #  camera.wait_recording(60)
+  #  camera.stop_recording()
+  #  camera.close()
+  #  # Send video
+  #  bot.sendVideo(id, open(path + '/spinni_video.h264', 'rb'))
+  #  bot.sendMessage(id, 'YOOOO')
   elif (command == '/update'):
     os.system('sh ./update.sh')
   elif (command == '/db'):
