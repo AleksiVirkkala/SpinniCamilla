@@ -45,7 +45,7 @@ def handleMessage(msg):
     bot.sendMessage(id, 'Reading database...')
     bot.sendMessage(id, db.getDbContent())
   elif (command == '/login'):
-    bot.sendMessage(id, 'Reading database...')
+    bot.sendMessage(id, 'Adding to database...')
     bot.sendMessage(id, db.addToDb(id))
 
   else:
