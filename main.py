@@ -32,7 +32,7 @@ def handleMessage(msg):
     bot.sendMessage(id, 'Logging in...')
     bot.sendMessage(id, db.addToDb(id))
 
-  if (!db.checkIfIDExists(id)):
+  if (not db.checkIfIDExists(id)):
     # Block user from all commands except /login if not logged int
     bot.sendMessage(id, "Login with /login")
     return
