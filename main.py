@@ -64,6 +64,9 @@ def handleMessage(msg):
   #  bot.sendMessage(id, 'YOOOO')
   elif (command == '/update'):
     os.system('sh ./update.sh')
+  elif (command == '/deletedata'):
+    bot.sendMessage(id, 'Removing user...')
+    db.deleteFromDB(id)
   elif (command == '/db'):
     bot.sendMessage(id, 'Reading database...')
     bot.sendMessage(id, db.getDbContent())
