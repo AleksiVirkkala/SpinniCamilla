@@ -9,6 +9,14 @@ def getDbContent():
   cur.close()
   return rows
 
+def checkIfIDExists(chatID):
+  conn = sqlite3.connect('/home/pi/camillatesti/camilla')
+  cur = conn.cursor()
+  cur.execute("SELECT id FROM chats where id = " + str(chatID) + ";")
+  rows = cur.fetchall()
+  cur.close()
+  return len(rows) == 1
+
 def addToDb(chatID):
   conn = sqlite3.connect('/home/pi/camillatesti/camilla')
   cur = conn.cursor()
