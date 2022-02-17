@@ -44,7 +44,15 @@ def handleMessage(msg):
   elif (command == '/db'):
     bot.sendMessage(id, 'Reading database...')
     bot.sendMessage(id, db.getDbContent())
-  elif (command == '/login'):
+  elif (command.split()[0] == '/login'):
+    if (len(command.split()) != 2):
+      bot.sendMessage(id, 'Enter password after "/login"')
+      return
+    
+    if (command.split()[1] != 'Salasana'):
+      bot.sendMessage(id, 'Invalid password')
+      return
+
     if (db.checkIfIDExists(id)):
       bot.sendMessage(id, 'Already logged in')
       return
