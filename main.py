@@ -46,7 +46,7 @@ def handleMessage(msg):
     bot.sendMessage(id, db.getDbContent())
   elif (command == '/login'):
     bot.sendMessage(id, 'Reading database...')
-    bot.sendMessage(id, db.addToDb())
+    bot.sendMessage(id, db.addToDb(id))
 
   else:
     bot.sendMessage(id, "Laita /photo perkele")
