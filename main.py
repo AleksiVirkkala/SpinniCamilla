@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import telepot
 import db
 import time
