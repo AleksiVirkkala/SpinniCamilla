@@ -41,6 +41,7 @@ def handleMessage(msg):
   elif (command == '/photo'):
     print ("Taking picture…");
     # Initialize the camera
+    bot.sendMessage(id, "Hang in there, I'm trying..")
     camera = PiCamera();
     camera.start_preview()
     camera.rotation = -90
@@ -50,7 +51,7 @@ def handleMessage(msg):
     camera.close()
     # Seding picture
     bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
-    bot.sendMessage(id, "WOOO :OO")
+
   # elif (command == '/video'):
   #  print("Taking video...");
   #  camera = PiCamera()
