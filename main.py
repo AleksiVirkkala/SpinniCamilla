@@ -69,9 +69,9 @@ def handleMessage(msg):
   elif (command == '/deletedata'):
     bot.sendMessage(id, 'Removing user...')
     db.deleteFromDB(id)
-  elif (command == '/db'):
-    bot.sendMessage(id, 'Reading database...')
-    bot.sendMessage(id, db.getDbContent())
+ # elif (command == '/db'):
+  #  bot.sendMessage(id, 'Reading database...')
+   # bot.sendMessage(id, db.getDbContent())
   else:
     bot.sendMessage(id, "Laita /photo perkele")
 
