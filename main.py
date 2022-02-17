@@ -50,7 +50,7 @@ def handleMessage(msg):
 
   else:
     bot.sendMessage(id, "Laita /photo perkele")
-  
+
 
 
 
