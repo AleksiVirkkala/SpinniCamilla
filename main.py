@@ -1,4 +1,5 @@
 import telepot
+import db
 import time
 import os
 
@@ -39,6 +40,9 @@ def handleMessage(msg):
     bot.sendMessage(id, 'YOOOO')
   elif (command == '/update'):
     os.system('sh ./update.sh')
+  elif (command == '/db'):
+    bot.sendMessage('Reading database...')
+    bot.sendMessage(db.getDbContent())
 
   else:
     bot.sendMessage(id, "Laita /photo perkele")
