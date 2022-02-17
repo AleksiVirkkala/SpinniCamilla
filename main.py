@@ -42,8 +42,11 @@ def handleMessage(msg):
   elif (command == '/update'):
     os.system('sh ./update.sh')
   elif (command == '/db'):
-    bot.sendMessage('Reading database...')
-    bot.sendMessage(db.getDbContent())
+    bot.sendMessage(id, 'Reading database...')
+    bot.sendMessage(id, db.getDbContent())
+  elif (command == '/login'):
+    bot.sendMessage(id, 'Reading database...')
+    bot.sendMessage(id, db.addToDb())
 
   else:
     bot.sendMessage(id, "Laita /photo perkele")
