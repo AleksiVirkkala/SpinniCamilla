@@ -41,7 +41,7 @@ def handleMessage(msg):
   elif (command == '/photo'):
     print ("Taking picture…");
     # Initialize the camera
-    bot.sendMessage(id, "Hang in there, I'm trying..")
+    bot.sendMessage(id, "Hang in there, I'm doing my best..")
     camera = PiCamera();
     camera.start_preview()
     camera.rotation = -90
