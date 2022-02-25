@@ -19,7 +19,7 @@ ADMIN_USERS=[s.strip() for s in ADMIN_USERS]
 def handleMessage(msg):
   id = msg['chat']['id'];
   command = msg['text'];
-  print ('Command ' + command + ' from chat id' + str(id));
+  print ('Command ' + command + ' from chat id ' + str(id));
 
   if (command.split()[0] == '/login'):
     if (len(command.split()) != 2):
@@ -63,7 +63,7 @@ def handleMessage(msg):
     bot.sendMessage(id, 'Removing user...')
     db.deleteFromDB(id)
  
-  if (id in ADMIN_USERS):
+  if (str(id) in ADMIN_USERS):
     admin.handleMessage(id, command, bot, db)
 
   else:
