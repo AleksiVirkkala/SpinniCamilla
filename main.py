@@ -63,7 +63,7 @@ def handleMessage(msg):
     bot.sendMessage(id, 'Removing user...')
     db.deleteFromDB(id)
  
-  if (str(id) in ADMIN_USERS):
+  elif (str(id) in ADMIN_USERS):
     admin.handleMessage(id, command, bot, db)
 
   else:
