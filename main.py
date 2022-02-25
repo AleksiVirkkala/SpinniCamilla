@@ -17,57 +17,61 @@ ADMIN_USERS=[s.strip() for s in ADMIN_USERS]
 
 # Handling message from Telegram
 def handleMessage(msg):
-  id = msg['chat']['id'];
-  command = msg['text'];
-  print ('Command ' + command + ' from chat id ' + str(id));
+  try:
+    id = msg['chat']['id'];
+    command = msg['text'];
+    print ('Command ' + command + ' from chat id ' + str(id));
 
-  if (command.split()[0] == '/login'):
-    if (len(command.split()) != 2):
-      bot.sendMessage(id, 'Enter password after "/login"')
+    if (command.split()[0] == '/login'):
+      if (len(command.split()) != 2):
+        bot.sendMessage(id, 'Enter password after "/login"')
+        return
+      
+      if (command.split()[1] != LOGIN_PASSWORD):
+        bot.sendMessage(id, 'Invalid password')
+        return
+
+      if (db.checkIfIDExists(id)):
+        bot.sendMessage(id, 'Already logged in')
+        return
+
+      bot.sendMessage(id, 'Logging in...')
+      db.addToDb(id)
       return
-    
-    if (command.split()[1] != LOGIN_PASSWORD):
-      bot.sendMessage(id, 'Invalid password')
+
+    if (not db.checkIfIDExists(id)):
+      # Block user from all commands except /login if not logged int
+      bot.sendMessage(id, "Login with /login")
       return
+      
+    elif (command == '/photo'):
+      print ("Taking picture…");
+      # Initialize the camera
+      bot.sendMessage(id, "Hang in there, I'm doing my best..")
+      camera = PiCamera();
+      camera.start_preview()
+      camera.rotation = -90
+      camera.capture(path + '/pic.jpg')
+      time.sleep(2)
+      camera.stop_preview()
+      camera.close()
+      # Seding picture
+      bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
 
-    if (db.checkIfIDExists(id)):
-      bot.sendMessage(id, 'Already logged in')
-      return
+    elif (command == '/update'):
+      os.system('sh ./update.sh')
+    elif (command == '/deletedata'):
+      bot.sendMessage(id, 'Removing user...')
+      db.deleteFromDB(id)
+  
+    elif (str(id) in ADMIN_USERS):
+      admin.handleMessage(id, command, bot, db)
 
-    bot.sendMessage(id, 'Logging in...')
-    db.addToDb(id)
-    return
+    else:
+      bot.sendMessage(id, "Laita /photo perkele")
+  except:
+    print("virhe :(")
 
-  if (not db.checkIfIDExists(id)):
-    # Block user from all commands except /login if not logged int
-    bot.sendMessage(id, "Login with /login")
-    return
-    
-  elif (command == '/photo'):
-    print ("Taking picture…");
-    # Initialize the camera
-    bot.sendMessage(id, "Hang in there, I'm doing my best..")
-    camera = PiCamera();
-    camera.start_preview()
-    camera.rotation = -90
-    camera.capture(path + '/pic.jpg')
-    time.sleep(2)
-    camera.stop_preview()
-    camera.close()
-    # Seding picture
-    bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
-
-  elif (command == '/update'):
-    os.system('sh ./update.sh')
-  elif (command == '/deletedata'):
-    bot.sendMessage(id, 'Removing user...')
-    db.deleteFromDB(id)
- 
-  elif (str(id) in ADMIN_USERS):
-    admin.handleMessage(id, command, bot, db)
-
-  else:
-    bot.sendMessage(id, "Laita /photo perkele")
 
 
 
