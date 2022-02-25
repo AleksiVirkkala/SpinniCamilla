@@ -30,7 +30,8 @@ def handleMessage(msg):
       return
 
     bot.sendMessage(id, 'Logging in...')
-    bot.sendMessage(id, db.addToDb(id))
+    db.addToDb(id)
+    return
 
   if (not db.checkIfIDExists(id)):
     # Block user from all commands except /login if not logged int
@@ -40,6 +41,7 @@ def handleMessage(msg):
   elif (command == '/photo'):
     print ("Taking picture…");
     # Initialize the camera
+    bot.sendMessage(id, "Hang in there, I'm doing my best..")
     camera = PiCamera();
     camera.start_preview()
     camera.rotation = -90
@@ -49,7 +51,7 @@ def handleMessage(msg):
     camera.close()
     # Seding picture
     bot.sendPhoto(id, open(path + '/pic.jpg', 'rb'))
-    bot.sendMessage(id, "WOOO :OO")
+
   # elif (command == '/video'):
   #  print("Taking video...");
   #  camera = PiCamera()
@@ -64,9 +66,12 @@ def handleMessage(msg):
   #  bot.sendMessage(id, 'YOOOO')
   elif (command == '/update'):
     os.system('sh ./update.sh')
-  elif (command == '/db'):
-    bot.sendMessage(id, 'Reading database...')
-    bot.sendMessage(id, db.getDbContent())
+  elif (command == '/deletedata'):
+    bot.sendMessage(id, 'Removing user...')
+    db.deleteFromDB(id)
+ # elif (command == '/db'):
+  #  bot.sendMessage(id, 'Reading database...')
+   # bot.sendMessage(id, db.getDbContent())
   else:
     bot.sendMessage(id, "Laita /photo perkele")
 

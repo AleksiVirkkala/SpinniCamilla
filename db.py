@@ -24,3 +24,11 @@ def addToDb(chatID):
   conn.commit()
   cur.close()
   return
+
+def deleteFromDB(chatID):
+  conn = sqlite3.connect('/home/pi/camillatesti/camilla')
+  cur = conn.cursor()
+  cur.execute("DELETE FROM chats WHERE id = "+ str(chatID))
+  conn.commit()
+  cur.close()
+  return
