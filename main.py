@@ -5,7 +5,7 @@ import time
 import admin
 
 from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, CallbackContext
 from picamera import PiCamera
 
 # Constant values
@@ -21,6 +21,13 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 logger = logging.getLogger(__name__)
+
+
+
+###########################
+#   Commands for anyone   #
+###########################
+
 
 
 def login_command(update: Update, context: CallbackContext) -> None:
@@ -43,15 +50,42 @@ def login_command(update: Update, context: CallbackContext) -> None:
   return
 
 
-def checkIfLoggedIn(update: Update, context: CallbackContext) -> None:
+
+##################
+#   Decorators   #
+##################
+
+
+
+def isLoggedIn(update: Update) -> bool:
   chat_id = update.message.chat.id
 
   if (not db.checkIfIDExists(chat_id)):
-    # Block user from all commands except /login if not logged int
     update.message.reply_text("Login with /login")
-    return
+    return False
+  
+  return True
+
+def checkIfAdmin(update: Update) -> bool:
+  chat_id = update.message.chat.id
+
+  if (str(chat_id) in ADMIN_USERS):
+    return True
+  
+  update.message.reply_text(id, "Laita /photo perkele")
+  return False
+
+
+
+###############################
+#   Logged in user commands   #
+###############################
+
+
 
 def photo_command(update: Update, context: CallbackContext) -> None:
+  if (not isLoggedIn(update)): return
+  
   print ("Taking picture…");
   # Initialize the camera
   update.message.reply_text("Hang in there, I'm doing my best..")
@@ -75,6 +109,16 @@ def deletedata_command(update: Update, context: CallbackContext) -> None:
 
 
 
+######################
+#   Admin commands   #
+######################
+
+
+
+####################
+#   Init the bot   #
+####################
+
 
 
 def main() -> None:
@@ -85,7 +129,6 @@ def main() -> None:
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("photo", checkIfLoggedIn), 1)
     dispatcher.add_handler(CommandHandler("photo", photo_command), 2)
     dispatcher.add_handler(CommandHandler("login", login_command), 2)
 
