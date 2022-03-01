@@ -20,41 +20,15 @@ PATH = os.getenv("HOME")
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
-
 logger = logging.getLogger(__name__)
 
 
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
-
-
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
-def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
-
-
-
-
-
 def login_command(update: Update, context: CallbackContext) -> None:
-  if (len(command.split()) != 2):
+  if (len(update.message.text.split()) != 2):
     update.message.reply_text('Enter password after "/login"')
     return
 
-  if (command.split()[1] != LOGIN_PASSWORD):
+  if (update.message.text.split()[1] != LOGIN_PASSWORD):
     update.message.reply_text('Invalid password')
     return
 
