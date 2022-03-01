@@ -129,8 +129,9 @@ def main() -> None:
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("photo", photo_command), 2)
-    dispatcher.add_handler(CommandHandler("login", login_command), 2)
+    dispatcher.add_handler(CommandHandler("photo", photo_command))
+    dispatcher.add_handler(CommandHandler("login", login_command))
+    dispatcher.add_handler(CommandHandler("deletedata", deletedata_command))
 
     # Start the Bot
     updater.start_polling()
