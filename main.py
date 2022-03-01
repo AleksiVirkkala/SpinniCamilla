@@ -24,6 +24,8 @@ logger = logging.getLogger(__name__)
 
 
 def login_command(update: Update, context: CallbackContext) -> None:
+  chat_id = update.message.chat.id
+
   if (len(update.message.text.split()) != 2):
     update.message.reply_text('Enter password after "/login"')
     return
@@ -32,17 +34,19 @@ def login_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Invalid password')
     return
 
-  if (db.checkIfIDExists(id)):
+  if (db.checkIfIDExists(chat_id)):
     update.message.reply_text('Already logged in')
     return
 
   update.message.reply_text('Logging in...')
-  db.addToDb(id)
+  db.addToDb(chat_id)
   return
 
 
 def checkIfLoggedIn(update: Update, context: CallbackContext) -> None:
-  if (not db.checkIfIDExists(id)):
+  chat_id = update.message.chat.id
+
+  if (not db.checkIfIDExists(chat_id)):
     # Block user from all commands except /login if not logged int
     update.message.reply_text("Login with /login")
     return
@@ -65,8 +69,9 @@ def update_command(update: Update, context: CallbackContext) -> None:
   os.system('sh ./update.sh')
 
 def deletedata_command(update: Update, context: CallbackContext) -> None:
+  chat_id = update.message.chat.id
   update.message.reply_text('Removing user...')
-  db.deleteFromDB(id)
+  db.deleteFromDB(chat_id)
 
 
 
