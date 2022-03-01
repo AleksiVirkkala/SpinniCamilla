@@ -2,7 +2,6 @@ import logging
 import db
 import os
 import time
-import admin
 
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, CallbackContext
