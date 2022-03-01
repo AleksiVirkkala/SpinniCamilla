@@ -84,9 +84,6 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("photo", photo_command), 2)
     dispatcher.add_handler(CommandHandler("login", login_command), 2)
 
-    # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
-
     # Start the Bot
     updater.start_polling()
 
