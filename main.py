@@ -113,6 +113,19 @@ def deletedata_command(update: Update, context: CallbackContext) -> None:
 #   Admin commands   #
 ######################
 
+def db_command(update: Update, context: CallbackContext) -> None:
+  if (not checkIfAdmin()): return
+  # Get list of user ids that are currently logged in
+  update.message.reply_text('Reading database...')
+  update.message.reply_text(db.getDbContent())
+  
+def log_command(update: Update, context: CallbackContext) -> None:
+  if (not checkIfAdmin()): return
+  # Get log file content
+  update.message.reply_text('Reading log file...')
+  log = open('log.txt', 'r').readlines()
+  log = "".join(log)
+  update.message.reply_text(log)
 
 
 ####################
@@ -131,7 +144,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("photo", photo_command))
     dispatcher.add_handler(CommandHandler("login", login_command))
-    dispatcher.add_handler(CommandHandler("deletedata", deletedata_command))
+    dispatcher.add_handler(CommandHandler("delete", deletedata_command))
 
     # Start the Bot
     updater.start_polling()
