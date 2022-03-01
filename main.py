@@ -24,6 +24,32 @@ logger = logging.getLogger(__name__)
 
 
 
+##################
+#   Decorators   #
+##################
+
+
+
+def isLoggedIn(update: Update) -> bool:
+  chat_id = update.message.chat.id
+
+  if (not db.checkIfIDExists(chat_id)):
+    update.message.reply_text("Login with /login")
+    return False
+  
+  return True
+
+def isAdmin(update: Update) -> bool:
+  chat_id = update.message.chat.id
+
+  if (str(chat_id) in ADMIN_USERS):
+    return True
+  
+  update.message.reply_text(id, "Laita /photo perkele")
+  return False
+
+
+
 ###########################
 #   Commands for anyone   #
 ###########################
@@ -49,32 +75,8 @@ def login_command(update: Update, context: CallbackContext) -> None:
   db.addToDb(chat_id)
   return
 
-
-
-##################
-#   Decorators   #
-##################
-
-
-
-def isLoggedIn(update: Update) -> bool:
-  chat_id = update.message.chat.id
-
-  if (not db.checkIfIDExists(chat_id)):
-    update.message.reply_text("Login with /login")
-    return False
-  
-  return True
-
-def checkIfAdmin(update: Update) -> bool:
-  chat_id = update.message.chat.id
-
-  if (str(chat_id) in ADMIN_USERS):
-    return True
-  
-  update.message.reply_text(id, "Laita /photo perkele")
-  return False
-
+def update_command(update: Update, context: CallbackContext) -> None:
+  os.system('sh ./update.sh')
 
 
 ###############################
@@ -99,10 +101,8 @@ def photo_command(update: Update, context: CallbackContext) -> None:
   # Seding picture
   update.message.reply_photo(open(PATH + '/pic.jpg', 'rb'))
 
-def update_command(update: Update, context: CallbackContext) -> None:
-  os.system('sh ./update.sh')
-
 def deletedata_command(update: Update, context: CallbackContext) -> None:
+  if (not isLoggedIn(update)): return
   chat_id = update.message.chat.id
   update.message.reply_text('Removing user...')
   db.deleteFromDB(chat_id)
@@ -114,13 +114,13 @@ def deletedata_command(update: Update, context: CallbackContext) -> None:
 ######################
 
 def db_command(update: Update, context: CallbackContext) -> None:
-  if (not checkIfAdmin()): return
+  if (not (isLoggedIn(update) and isAdmin(update))): return
   # Get list of user ids that are currently logged in
   update.message.reply_text('Reading database...')
   update.message.reply_text(db.getDbContent())
   
 def log_command(update: Update, context: CallbackContext) -> None:
-  if (not checkIfAdmin()): return
+  if (not (isLoggedIn(update) and isAdmin(update))): return
   # Get log file content
   update.message.reply_text('Reading log file...')
   log = open('log.txt', 'r').readlines()
@@ -142,9 +142,18 @@ def main() -> None:
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
     # on different commands - answer in Telegram
-    dispatcher.add_handler(CommandHandler("photo", photo_command))
+
+    # All users
     dispatcher.add_handler(CommandHandler("login", login_command))
+    dispatcher.add_handler(CommandHandler("update", update_command))
+
+    # Logged in
+    dispatcher.add_handler(CommandHandler("photo", photo_command))
     dispatcher.add_handler(CommandHandler("delete", deletedata_command))
+
+    # Admin
+    dispatcher.add_handler(CommandHandler("db", db_command))
+    dispatcher.add_handler(CommandHandler("log", log_command))
 
     # Start the Bot
     updater.start_polling()
