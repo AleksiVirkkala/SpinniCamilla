@@ -3,6 +3,7 @@ import db
 import os
 import time
 
+from PIL import Image ,ImageStat
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, CallbackContext
 from picamera import PiCamera
@@ -97,8 +98,16 @@ def photo_command(update: Update, context: CallbackContext) -> None:
   time.sleep(2)
   camera.stop_preview()
   camera.close()
-  # Seding picture
+  #calculating light level from the picture
+  im = Image.open((PATH + '/pic.jpg', 'rb')).convert('L')
+  stat = ImageStat(im)
+  brightness = stat.mean[0]
+
+
+  # Sending picture + brightness value
+  update.message.reply_text("value = " + brightness)
   update.message.reply_photo(open(PATH + '/pic.jpg', 'rb'))
+ 
 
 def deletedata_command(update: Update, context: CallbackContext) -> None:
   if (not isLoggedIn(update)): return
