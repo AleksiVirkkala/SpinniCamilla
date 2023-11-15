@@ -99,14 +99,20 @@ def photo_command(update: Update, context: CallbackContext) -> None:
   camera.stop_preview()
   camera.close()
   #calculating light level from the picture
-  im = Image.open((PATH + '/pic.jpg', 'rb')).convert('L')
-  stat = ImageStat(im)
+  im = Image.open(open(PATH + '/pic.jpg', 'rb'))
+  stat = ImageStat.Stat(im)
   brightness = stat.mean[0]
+  reply = ""
+  if brightness <= 1:
+      reply = "ei vielä iltaa"
+  else:
+      reply = "iltaa"
 
+  update.message.reply_text(str(reply))
 
-  # Sending picture + brightness value
-  update.message.reply_text("value = " + brightness)
-  update.message.reply_photo(open(PATH + '/pic.jpg', 'rb'))
+  # used for debugging if needed
+  #update.message.reply_text("value = " + brightness)
+  #update.message.reply_photo(open(PATH + '/pic.jpg', 'rb'))
  
 
 def deletedata_command(update: Update, context: CallbackContext) -> None:
@@ -156,7 +162,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("update", update_command))
 
     # Logged in
-    dispatcher.add_handler(CommandHandler("photo", photo_command))
+    dispatcher.add_handler(CommandHandler("iltaa", photo_command))
     dispatcher.add_handler(CommandHandler("delete", deletedata_command))
 
     # Admin
