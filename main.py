@@ -90,28 +90,27 @@ def photo_command(update: Update, context: CallbackContext) -> None:
   
   print ("Taking picture…");
   # Initialize the camera
-  update.message.reply_text("Hang in there, I'm doing my best..")
+  update.message.reply_text("Detecting iltaa..")
   camera = PiCamera();
   camera.start_preview()
   camera.rotation = -90
   camera.capture(PATH + '/pic.jpg')
-  time.sleep(2)
+  time.sleep(1)
   camera.stop_preview()
   camera.close()
   #calculating light level from the picture
-  im = Image.open(open(PATH + '/pic.jpg', 'rb'))
+  im = Image.open(open(PATH + "/pic.jpg", 'rb'))
   stat = ImageStat.Stat(im)
   brightness = stat.mean[0]
   reply = ""
   if brightness <= 1:
-      reply = "ei vielä iltaa"
+     reply = "ei vielä iltaa"
   else:
-      reply = "iltaa"
+     reply = "iltaa"
 
   update.message.reply_text(str(reply))
-
-  # used for debugging if needed
-  #update.message.reply_text("value = " + brightness)
+  # use these to debug if needed
+  #update.message.reply_text("value = " + str(brightness))
   #update.message.reply_photo(open(PATH + '/pic.jpg', 'rb'))
  
 
