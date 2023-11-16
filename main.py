@@ -45,7 +45,7 @@ def isAdmin(update: Update) -> bool:
   if (str(chat_id) in ADMIN_USERS):
     return True
   
-  update.message.reply_text(id, "Laita /photo perkele")
+  update.message.reply_text(id, "Laita /iltaa perkele")
   return False
 
 
@@ -99,7 +99,7 @@ def photo_command(update: Update, context: CallbackContext) -> None:
   camera.stop_preview()
   camera.close()
   #calculating light level from the picture
-  im = Image.open(open(PATH + "/pic.jpg", 'rb'))
+  im = Image.open(open(PATH + "/pic.jpg", 'rb')).convert('L')
   stat = ImageStat.Stat(im)
   brightness = stat.mean[0]
   reply = ""
